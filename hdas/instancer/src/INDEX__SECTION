@@ -1,0 +1,15 @@
+Operator:     nmara::od_instancer::1.0
+Label:        OD_Instancer
+Path:         oplib:/nmara::Sop/od_instancer::1.0?nmara::Sop/od_instancer::1.0
+Icon:         SOP_subnet
+Table:        Sop
+License:      
+Extra:        inputcolors='0 ' outputcolors='0 ' visibleoutputs=0 
+User:         
+Inputs:       0 to 0
+Outputs:      0
+Subnet:       true
+Python:       false
+Empty:        false
+Modified:     Sun Feb 22 22:43:18 2026
+

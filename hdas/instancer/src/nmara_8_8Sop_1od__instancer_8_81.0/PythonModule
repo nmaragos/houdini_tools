@@ -1,0 +1,47 @@
+def execute():
+    num_assets = hou.pwd().parm('assets').eval()
+    
+    main_root_path = hou.pwd().parent().path()
+    
+    subnet = hou.node(main_root_path).createNode("subnet", "instancer")
+    root_path = subnet.path()
+    
+    target_obj_merge = hou.node(root_path).createNode("object_merge")
+    target_obj_merge.parm("xformtype").set(1)
+    target_obj_merge.parm("objpath1").set(hou.pwd().parm("target").eval())
+    
+    merge_node = hou.node(root_path).createNode("merge")
+    
+    scatter_node = target_obj_merge.createOutputNode("scatter")
+    scatter_node.parm("relaxpoints").set(0)
+    
+    attrib_rand_name = scatter_node.createOutputNode("attribrandomize")
+    attrib_rand_name.parm("name").set("name")
+    attrib_rand_name.parm("distribution").set("discrete")
+    attrib_rand_name.parm("valuetype").set(1)
+    attrib_rand_name.parm("values").set(num_assets)
+    
+    for i in range(num_assets):
+        prim_name = hou.pwd().parm(f'asset{i+1}').eval().split("/")[-1]
+        node = hou.node(root_path).createNode("object_merge", prim_name)
+        node.parm("xformtype").set(1)
+        node.parm("objpath1").set(hou.pwd().parm(f'asset{i+1}').eval())
+        pack_node = node.createOutputNode("pack")
+        name_node = pack_node.createOutputNode("name")
+        name_node.parm("name1").set(node.name())
+    
+        merge_node.setNextInput(name_node)
+    
+        attrib_rand_name.parm(f"strvalue{i}").set(node.name())
+    
+        node.moveToGoodPosition()
+    
+    merge_node.moveToGoodPosition()
+    
+    c2p_node = hou.node(root_path).createNode("copytopoints::2.0")
+    c2p_node.parm("useidattrib").set(1)
+    c2p_node.parm("idattrib").set("name")
+    c2p_node.setInput(0, merge_node)
+    c2p_node.setInput(1, attrib_rand_name)
+    c2p_node.moveToGoodPosition()
+    c2p_node.setDisplayFlag(True)

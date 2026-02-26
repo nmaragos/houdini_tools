@@ -1,0 +1,59 @@
+# Dialog script for nmara::od_instancer::1.0 automatically generated
+
+{
+    name	nmara::od_instancer::1.0
+    script	nmara::od_instancer::1.0
+    label	OD_Instancer
+
+    help {
+	""
+    }
+
+    inputlabel	1	"Sub-Network Input #1"
+    inputlabel	2	"Sub-Network Input #2"
+    inputlabel	3	"Sub-Network Input #3"
+    inputlabel	4	"Sub-Network Input #4"
+
+    multiparm {
+        name    "assets"
+        label    "Assets"
+
+        parm {
+            name    "asset#"
+            label   "Asset_#"
+            type    string
+            default { "" }
+            parmtag { "oprelative" "." }
+            parmtag { "script_callback_language" "python" }
+        }
+    }
+
+    parm {
+        name    "sepparm2"
+        label   "Separator"
+        type    separator
+        default { "" }
+    }
+    parm {
+        name    "target"
+        label   "Target"
+        type    string
+        default { "" }
+        parmtag { "oprelative" "." }
+        parmtag { "script_callback_language" "python" }
+    }
+    parm {
+        name    "sepparm"
+        label   "Separator"
+        type    separator
+        default { "" }
+    }
+    parm {
+        name    "execute"
+        label   "Execute"
+        type    button
+        default { "0" }
+        parmtag { "script_callback" "hou.phm().execute()" }
+        parmtag { "script_callback_language" "python" }
+    }
+}
